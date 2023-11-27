@@ -2,7 +2,7 @@ import random
 import math
 from tkinter import *
 
-def generate_tree(canvas, x1, y1, angle, length, depth, scale, button, root):
+def generate_tree(canvas, x1, y1, angle, length, depth, scale, button, root, user_selections):
     if depth == 0:
         button.config(text="Clear Tree", state='normal')
         return
@@ -19,5 +19,5 @@ def generate_tree(canvas, x1, y1, angle, length, depth, scale, button, root):
 
     canvas.create_line(x1, y1, x2, y2, width=3, smooth=True)
     
-    canvas.after(300, generate_tree, canvas, x2, y2, angle - random.randint(10, 45), length * 0.7, depth - 1, scale, button, root)
-    canvas.after(300, generate_tree, canvas, x2, y2, angle + random.randint(10, 45), length * 0.7, depth - 1, scale, button, root)
+    canvas.after(300, generate_tree, canvas, x2, y2, angle - random.randint(10, user_selections['randomization']), length * (user_selections['scale'] * 0.01), depth - 1, scale, button, root, user_selections)
+    canvas.after(300, generate_tree, canvas, x2, y2, angle + random.randint(10, user_selections['randomization']), length * (user_selections['scale'] * 0.01), depth - 1, scale, button, root, user_selections)
