@@ -74,10 +74,14 @@ seasons = ['Summer', 'Autumn', 'Winter', 'Spring', 'None']
 #make the default selected season None
 selected_season = StringVar(value='None')
 
+#array to store radiobuttons so we then we can access them to perform methods on them
+radio_buttons = []
+
 #loop that creates all radio buttons
-for season in seasons:
-    radio = CTkRadioButton(sidebar, text=season, value=season, variable=selected_season, text_color='black')
+for i in range(len(seasons)):
+    radio = CTkRadioButton(sidebar, text=seasons[i], value=seasons[i], variable=selected_season, text_color='black')
     radio.pack(pady=5)
+    radio_buttons.append(radio)
 
 #values passed when crazy tree is created
 random_tree_values = { 'scale':70,
@@ -86,9 +90,16 @@ random_tree_values = { 'scale':70,
                         'depth': 10
                         }
 
+#function to randomize settings
+def randomize_settings():
+    depth_slider.set(random.randint(20, 100))
+    scale_slider.set(random.randint(40, 100))
+    randomization_slider.set(random.randint(11, 100))
+    radio_buttons[random.randint(0, 4)].select()
+
 #Create Random Tree Button
-random_tree_button = CTkButton(sidebar, text="Create Crazy Tree", command=lambda: generate_tree(canvas, starting_tree_values['x1'], starting_tree_values['y1'], starting_tree_values['angle'], starting_tree_values['length'], random_tree_button, root, random_tree_values))
-random_tree_button.pack(pady=20)  
+randomize_settings_button = CTkButton(sidebar, text="Randomize Settings", command=lambda:randomize_settings())
+randomize_settings_button.pack(pady=20)  
 
 # Create a label to display the season message
 message_label = CTkLabel(root, text="")
@@ -98,10 +109,12 @@ def reset_to_default():
     depth_slider.set(100)
     scale_slider.set(70)
     randomization_slider.set(45)
-    selected_season = StringVar(value='None')
+    radio_buttons[4].select()
 
 #reset everyhting to default button
 reset_to_default_button = CTkButton(sidebar, text='Reset to Default', command=lambda:reset_to_default())
 reset_to_default_button.pack()
+
+CTkLabel(sidebar, text='Zoom In/Out: Right & Left Click', text_color='black', font=('Arial', 11)).pack()
 
 root.mainloop()
