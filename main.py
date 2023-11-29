@@ -39,7 +39,7 @@ canvas.bind('<Button-3>', zoom_out)
 #Depth slider Label
 depth_label = CTkLabel(sidebar, text='Choose tree depth', text_color='black')
 depth_label.pack()
-CTkLabel(sidebar, text='Choices bigger than default can make the program laggy', text_color='black', font=('Arial', 10)).pack()
+CTkLabel(sidebar, text='(Choices bigger than default can make the program laggy)', text_color='black', font=('Arial', 9)).pack()
 
 #Slider to choose depth
 depth_slider = CTkSlider(sidebar, from_=20, to=150, orientation='horizontal')
@@ -66,7 +66,7 @@ randomization_slider.pack()
 
 #Seasons Label
 seasons_label = CTkLabel(sidebar, text='Select Season', text_color='black')
-seasons_label.pack()
+seasons_label.pack(pady=5)
 
 #Create Radio Buttons
 seasons = ['Summer', 'Autumn', 'Winter', 'Spring', 'None']
@@ -77,7 +77,7 @@ selected_season = StringVar(value='None')
 #loop that creates all radio buttons
 for season in seasons:
     radio = CTkRadioButton(sidebar, text=season, value=season, variable=selected_season, text_color='black')
-    radio.pack()
+    radio.pack(pady=5)
 
 #values passed when crazy tree is created
 random_tree_values = { 'scale':70,
@@ -88,7 +88,7 @@ random_tree_values = { 'scale':70,
 
 #Create Random Tree Button
 random_tree_button = CTkButton(sidebar, text="Create Crazy Tree", command=lambda: generate_tree(canvas, starting_tree_values['x1'], starting_tree_values['y1'], starting_tree_values['angle'], starting_tree_values['length'], random_tree_button, root, random_tree_values))
-random_tree_button.pack()  
+random_tree_button.pack(pady=20)  
 
 # Create a label to display the season message
 message_label = CTkLabel(root, text="")

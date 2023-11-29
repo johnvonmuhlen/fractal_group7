@@ -36,5 +36,5 @@ def generate_tree(canvas, x1, y1, angle, length, button, root, user_selections, 
     }
     
     #one branch for left and one for right
-    canvas.after(300, generate_tree, canvas, x2, y2, angle - random.randint(10, user_selections['randomization']), length * (user_selections['scale'] * 0.01), button, root, new_user_selections, new_width)
-    canvas.after(300, generate_tree, canvas, x2, y2, angle + random.randint(10, user_selections['randomization']), length * (user_selections['scale'] * 0.01), button, root, new_user_selections, new_width)
+    canvas.after(300, generate_tree, canvas, x2, y2, angle - random.uniform(10, user_selections['randomization']), length * (user_selections['scale'] * 0.01), button, root, new_user_selections, new_width)
+    canvas.after(300, generate_tree, canvas, x2, y2, angle + random.uniform(10, user_selections['randomization']), length * (user_selections['scale'] * 0.01), button, root, new_user_selections, new_width)
