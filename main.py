@@ -2,20 +2,32 @@ from tkinter import *
 from generate_tree import generate_tree
 from customtkinter import *
 import random
+import platform
 
+# startup tkinter canvas
 root = Tk()
-canvas = Canvas(root,width=800, height=600)
+canvas = Canvas(root, width=800, height=600)
 canvas.pack(fill=BOTH, expand=True, side='right')
+#window title
 root.title("Group 7 Tree Fractal")
 
-#zoom in/out functions
-def zoom_in(event):
+#zoom in/out functions for clicking
+def zoom_in_click(event):
    if generate_tree_button.cget('text') != 'Generating Tree...' or generate_tree_button.cget('text') == 'Clear Tree':
-    canvas.scale(ALL, event.x, event.y, 1.1, 1.1)
-
-def zoom_out(event):
+        canvas.scale(ALL, event.x, event.y, 1.1, 1.1)
+        
+def zoom_out_click(event):
    if generate_tree_button.cget('text') != 'Generating Tree...' or generate_tree_button.cget('text') == 'Clear Tree':
     canvas.scale(ALL, event.x, event.y, 0.9, 0.9)
+
+#zoom in out functions for buttons
+def zoom_in():
+   if generate_tree_button.cget('text') != 'Generating Tree...' or generate_tree_button.cget('text') == 'Clear Tree':
+        canvas.scale(ALL, 250, 250, 1.1, 1.1)
+        
+def zoom_out():
+   if generate_tree_button.cget('text') != 'Generating Tree...' or generate_tree_button.cget('text') == 'Clear Tree':
+    canvas.scale(ALL, 250, 250, 0.9, 0.9)
 
 #sidebar
 sidebar = Frame(root, width=200, bg='white', height=500, relief='sunken', borderwidth=4)
@@ -23,7 +35,7 @@ sidebar.pack(expand=True, fill='both', side='left', anchor='nw')
 
 #default tree values passed to generate tree
 starting_tree_values = {'x1': 400,
-                        'y1': 520,
+                        'y1': 570,
                         'angle': -90,
                         'length':300,
                         }
@@ -33,8 +45,8 @@ generate_tree_button = CTkButton(sidebar, text="Start Generating New Tree", comm
 generate_tree_button.pack(pady=20)
 
 #zoom in commands for clicking
-canvas.bind('<Button-1>', zoom_in)
-canvas.bind('<Button-3>', zoom_out)
+canvas.bind('<Button-1>', zoom_in_click)
+canvas.bind(f'<Button-{2 if platform.system() == "Darwin" else 3}>', zoom_out_click)
 
 #Depth slider Label
 depth_label = CTkLabel(sidebar, text='Choose tree depth', text_color='black')
@@ -99,12 +111,13 @@ def randomize_settings():
 
 #Create Random Tree Button
 randomize_settings_button = CTkButton(sidebar, text="Randomize Settings", command=lambda:randomize_settings())
-randomize_settings_button.pack(pady=20)  
+randomize_settings_button.pack(pady=10)  
 
 # Create a label to display the season message
 message_label = CTkLabel(root, text="")
 message_label.pack()
 
+#reset sliders to default
 def reset_to_default():
     depth_slider.set(100)
     scale_slider.set(70)
@@ -115,6 +128,23 @@ def reset_to_default():
 reset_to_default_button = CTkButton(sidebar, text='Reset to Default', command=lambda:reset_to_default())
 reset_to_default_button.pack()
 
-CTkLabel(sidebar, text='Zoom In/Out: Right & Left Click', text_color='black', font=('Arial', 11)).pack()
+#label for zooming in buttons
+zoom_buttons_label = CTkLabel(sidebar, text="Zoom In/Out", text_color='black')
+zoom_buttons_label.pack(pady=10)
+
+#buttons to zoom in and out
+zoom_in_button = CTkButton(sidebar, text="+", command=zoom_in)
+zoom_in_button.pack(side=LEFT)
+zoom_out_button = CTkButton(sidebar, text="-", command=zoom_out)
+zoom_out_button.pack(side=RIGHT)
+
+# Bind arrow key events to the xview_scroll and yview_scroll methods of the canvas
+canvas.bind("<Left>", lambda event: canvas.xview_scroll(-1, "units"))
+canvas.bind("<Right>", lambda event: canvas.xview_scroll( 1, "units"))
+canvas.bind("<Up>",   lambda event: canvas.yview_scroll(-1, "units"))
+canvas.bind("<Down>", lambda event: canvas.yview_scroll( 1, "units"))
+
+# Give focus to the canvas so the arrows can trigger
+canvas.focus_set()
 
 root.mainloop()
