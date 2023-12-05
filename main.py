@@ -11,31 +11,38 @@ canvas.pack(fill=BOTH, expand=True, side='right')
 #window title
 root.title("Group 7 Tree Fractal")
 
-#zoom in/out functions for clicking
-def zoom_in_click(event):
-   if generate_tree_button.cget('text') != 'Generating Tree...' or generate_tree_button.cget('text') == 'Clear Tree':
-        canvas.scale(ALL, event.x, event.y, 1.1, 1.1)
+#function to zoom in or out
+def handle_zoom(event): 
+    #check if right or left click
+    if event.num == 1:
+        #zoom in
+        ratio_zoom = 1.1
+    else:
+        #zoom out
+        ratio_zoom = 0.9
         
-def zoom_out_click(event):
-   if generate_tree_button.cget('text') != 'Generating Tree...' or generate_tree_button.cget('text') == 'Clear Tree':
-    canvas.scale(ALL, event.x, event.y, 0.9, 0.9)
-
-#zoom in out functions for buttons
-def zoom_in():
+    #check that tree isnt generating
     if generate_tree_button.cget('text') != 'Generating Tree...' or generate_tree_button.cget('text') == 'Clear Tree':
-        canvas.scale(ALL, 250, 250, 1.1, 1.1)
+        #zoom method
+        canvas.scale(ALL, event.x, event.y, ratio_zoom, ratio_zoom)
+
+#create an object that lets us access zoom events by associating their number to zoom in or out
+#we do this because the the canvas.bind method returns an object as well so we wanted to be able to handle all the zooming in the same function
+class ZoomEvent:
+    def __init__(self, num):
+        self.num = num
+        self.x = 250
+        self.y = 250
     
-def zoom_out():
-    if generate_tree_button.cget('text') != 'Generating Tree...' or generate_tree_button.cget('text') == 'Clear Tree':
-        canvas.scale(ALL, 250, 250, 0.9, 0.9)
-
 #handle user click on zoom buttons
 def segmented_button_callback(value):
+    #if + button clicked, pass an object with num=1 so the handle_zoom function can recognize if its zoom in or out
     if value == '+':
-        zoom_in()
+        handle_zoom(ZoomEvent(1))
+    #if the other is clicked, pass three(1 = left click, 3 = right click essentially)
     else:
-        zoom_out()
-        
+        handle_zoom(ZoomEvent(3))
+    #reset buttons so it can be clicked multiple times
     segemented_button.set(None)
         
 #sidebar
@@ -54,8 +61,8 @@ generate_tree_button = CTkButton(sidebar, text="Start Generating New Tree", comm
 generate_tree_button.pack(pady=20)
 
 #zoom in commands for clicking
-canvas.bind('<Button-1>', zoom_in_click)
-canvas.bind(f'<Button-{2 if platform.system() == "Darwin" else 3}>', zoom_out_click)
+canvas.bind('<Button-1>', handle_zoom)
+canvas.bind(f'<Button-{2 if platform.system() == "Darwin" else 3}>', handle_zoom)
 
 #Depth slider Label
 depth_label = CTkLabel(sidebar, text='Choose tree depth', text_color='black')
