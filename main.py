@@ -22,13 +22,22 @@ def zoom_out_click(event):
 
 #zoom in out functions for buttons
 def zoom_in():
-   if generate_tree_button.cget('text') != 'Generating Tree...' or generate_tree_button.cget('text') == 'Clear Tree':
+    if generate_tree_button.cget('text') != 'Generating Tree...' or generate_tree_button.cget('text') == 'Clear Tree':
         canvas.scale(ALL, 250, 250, 1.1, 1.1)
-        
+    
 def zoom_out():
-   if generate_tree_button.cget('text') != 'Generating Tree...' or generate_tree_button.cget('text') == 'Clear Tree':
-    canvas.scale(ALL, 250, 250, 0.9, 0.9)
+    if generate_tree_button.cget('text') != 'Generating Tree...' or generate_tree_button.cget('text') == 'Clear Tree':
+        canvas.scale(ALL, 250, 250, 0.9, 0.9)
 
+#handle user click on zoom buttons
+def segmented_button_callback(value):
+    if value == '+':
+        zoom_in()
+    else:
+        zoom_out()
+        
+    segemented_button.set(None)
+        
 #sidebar
 sidebar = Frame(root, width=200, bg='white', height=500, relief='sunken', borderwidth=4)
 sidebar.pack(expand=True, fill='both', side='left', anchor='nw')
@@ -133,10 +142,9 @@ zoom_buttons_label = CTkLabel(sidebar, text="Zoom In/Out", text_color='black')
 zoom_buttons_label.pack(pady=10)
 
 #buttons to zoom in and out
-zoom_in_button = CTkButton(sidebar, text="+", command=zoom_in)
-zoom_in_button.pack(side=LEFT)
-zoom_out_button = CTkButton(sidebar, text="-", command=zoom_out)
-zoom_out_button.pack(side=RIGHT)
+segemented_button_var = StringVar(value="Value 1")
+segemented_button = CTkSegmentedButton(sidebar, values=["+", "-"], command=segmented_button_callback, variable=segemented_button_var)
+segemented_button.pack()
 
 # Bind arrow key events to the xview_scroll and yview_scroll methods of the canvas
 canvas.bind("<Left>", lambda event: canvas.xview_scroll(-1, "units"))
