@@ -56,8 +56,21 @@ starting_tree_values = {'x1': 400,
                         'length':300,
                         }
 
+#function that triggers when button generates user
+def start_tree_generation():
+    #update text if there is no text
+    if message_label.cget('text') == "":
+        #update text for whatever season was selected
+        message_label.configure(text=f'Selected {selected_season.get()} Tree' if selected_season.get() != 'None' else 'Did Not Select Any Tree')
+    else:
+        #if text already has text, clear it
+        message_label.configure(text="")
+    
+    #call main function here
+    generate_tree(canvas, starting_tree_values['x1'], starting_tree_values['y1'], starting_tree_values['angle'], starting_tree_values['length'], generate_tree_button, root, {'scale':scale_slider.get(), 'randomization':randomization_slider.get(),'season':selected_season.get(), 'depth': round(depth_slider.get() / 10)})
+
 #Button to generate trees                                                                                        
-generate_tree_button = CTkButton(sidebar, text="Start Generating New Tree", command=lambda: generate_tree(canvas, starting_tree_values['x1'], starting_tree_values['y1'], starting_tree_values['angle'], starting_tree_values['length'], generate_tree_button, root, {'scale':scale_slider.get(), 'randomization':randomization_slider.get(),'season':selected_season.get(), 'depth': round(depth_slider.get() / 10)}))
+generate_tree_button = CTkButton(sidebar, text="Start Generating New Tree", command=start_tree_generation)
 generate_tree_button.pack(pady=20)
 
 #zoom in commands for clicking
@@ -130,7 +143,7 @@ randomize_settings_button = CTkButton(sidebar, text="Randomize Settings", comman
 randomize_settings_button.pack(pady=10)  
 
 # Create a label to display the season message
-message_label = CTkLabel(root, text="")
+message_label = CTkLabel(sidebar, text="", text_color='black')
 message_label.pack()
 
 #reset sliders to default
