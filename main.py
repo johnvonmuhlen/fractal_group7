@@ -1,8 +1,11 @@
 from tkinter import *
-from generate_tree import generate_tree
 from customtkinter import *
 import random
 import platform
+
+#our files
+from generate_tree import generate_tree
+from auto_sliders import handle_sliders
 
 # startup tkinter canvas
 root = Tk()
@@ -60,7 +63,7 @@ def start_tree_generation(event=None):
     canvas.delete(ALL)
     
     #call main function here
-    generate_tree(canvas, starting_tree_values['x1'], starting_tree_values['y1'], starting_tree_values['angle'], starting_tree_values['length'], root, {'scale':scale_slider.get(), 'randomization':randomization_slider.get(),'season':selected_season.get(), 'depth': round(depth_slider.get())})
+    generate_tree(canvas, starting_tree_values['x1'], starting_tree_values['y1'], starting_tree_values['angle'], starting_tree_values['length'], root, {'scale':scale_slider.get(), 'randomization':randomization_slider.get(),'season':selected_season.get(), 'depth': round(depth_slider.get() / 10)})
 
 #intro label
 intro_label = CTkLabel(sidebar, text='Welcome!', text_color='black', font=('Arial', 13))
@@ -77,7 +80,7 @@ depth_label = CTkLabel(sidebar, text='Choose tree depth', text_color='black')
 depth_label.pack()
 
 #Slider to choose depth
-depth_slider = CTkSlider(sidebar, from_=2, to=12, orientation='horizontal', command=start_tree_generation)
+depth_slider = CTkSlider(sidebar, from_=20, to=120, orientation='horizontal', command=start_tree_generation)
 depth_slider.set(2)
 depth_slider.pack()
 
@@ -103,6 +106,10 @@ randomization_slider.pack()
 seasons_label = CTkLabel(sidebar, text='Select Season', text_color='black')
 seasons_label.pack(pady=5)
 
+# Create a label to display the season message
+message_label = CTkLabel(sidebar, text="", text_color='black')
+message_label.pack()
+
 #Create Radio Buttons
 seasons = ['Summer', 'Autumn', 'Winter', 'Spring', 'None']
 
@@ -125,30 +132,25 @@ random_tree_values = { 'scale':70,
                         'depth': 10
                         }
 
-#function to randomize settings
+#function to randomize sliders
 def randomize_settings():
-    depth_slider.set(random.randint(20, 100))
-    scale_slider.set(random.randint(40, 100))
-    randomization_slider.set(random.randint(11, 100))
+    handle_sliders(depth_slider,random.randint(20, 120), start_tree_generation)
+    handle_sliders(scale_slider, random.randint(40, 100), start_tree_generation)
+    handle_sliders(randomization_slider, random.randint(11, 100), start_tree_generation)
     radio_buttons[random.randint(0, 4)].select()
 
 #Create Random Tree Button
 randomize_settings_button = CTkButton(sidebar, text="Randomize Settings", command=lambda:randomize_settings())
 randomize_settings_button.pack(pady=10)  
 
-# Create a label to display the season message
-message_label = CTkLabel(sidebar, text="", text_color='black')
-message_label.pack()
-
 #reset sliders to default
 def reset_to_default():
-    depth_slider.set(100)
-    scale_slider.set(70)
-    randomization_slider.set(45)
-    radio_buttons[4].select()
+    handle_sliders(depth_slider, 8, start_tree_generation)
+    handle_sliders(scale_slider, 70, start_tree_generation)
+    handle_sliders(randomization_slider, 45, start_tree_generation)
 
 #reset everyhting to default button
-reset_to_default_button = CTkButton(sidebar, text='Reset to Default', command=lambda:reset_to_default())
+reset_to_default_button = CTkButton(sidebar, text='Reset Tree To Default', command=lambda:reset_to_default())
 reset_to_default_button.pack()
 
 #label for zooming in buttons
