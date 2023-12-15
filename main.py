@@ -21,10 +21,8 @@ def handle_zoom(event):
         #zoom out
         ratio_zoom = 0.9
         
-    #check that tree isnt generating
-    if generate_tree_button.cget('text') != 'Generating Tree...' or generate_tree_button.cget('text') == 'Clear Tree':
-        #zoom method
-        canvas.scale(ALL, event.x, event.y, ratio_zoom, ratio_zoom)
+    #zoom method
+    canvas.scale(ALL, event.x, event.y, ratio_zoom, ratio_zoom)
 
 #create an object that lets us access zoom events by associating their number to zoom in or out
 #we do this because the the canvas.bind method returns an object as well so we wanted to be able to handle all the zooming in the same function
@@ -53,25 +51,22 @@ sidebar.pack(expand=True, fill='both', side='left', anchor='nw')
 starting_tree_values = {'x1': 400,
                         'y1': 570,
                         'angle': -90,
-                        'length':300,
+                        'length':200,
                         }
 
-#function that triggers when button generates user
-def start_tree_generation():
-    #update text if there is no text
-    if message_label.cget('text') == "":
-        #update text for whatever season was selected
-        message_label.configure(text=f'Selected {selected_season.get()} Tree' if selected_season.get() != 'None' else 'Did Not Select Any Tree')
-    else:
-        #if text already has text, clear it
-        message_label.configure(text="")
+#function that triggers when user moves sliders
+def start_tree_generation(event=None):
+    #clear the canvas
+    canvas.delete(ALL)
     
     #call main function here
-    generate_tree(canvas, starting_tree_values['x1'], starting_tree_values['y1'], starting_tree_values['angle'], starting_tree_values['length'], generate_tree_button, root, {'scale':scale_slider.get(), 'randomization':randomization_slider.get(),'season':selected_season.get(), 'depth': round(depth_slider.get() / 10)})
+    generate_tree(canvas, starting_tree_values['x1'], starting_tree_values['y1'], starting_tree_values['angle'], starting_tree_values['length'], root, {'scale':scale_slider.get(), 'randomization':randomization_slider.get(),'season':selected_season.get(), 'depth': round(depth_slider.get())})
 
-#Button to generate trees                                                                                        
-generate_tree_button = CTkButton(sidebar, text="Start Generating New Tree", command=start_tree_generation)
-generate_tree_button.pack(pady=20)
+#intro label
+intro_label = CTkLabel(sidebar, text='Welcome!', text_color='black', font=('Arial', 13))
+intro_label.pack()
+
+sub_intro_label = CTkLabel(sidebar, text='Start Moving Sliders To Generate Tree', text_color='black', font=('Arial', 11)).pack()
 
 #zoom in commands for clicking
 canvas.bind('<Button-1>', handle_zoom)
@@ -80,11 +75,10 @@ canvas.bind(f'<Button-{2 if platform.system() == "Darwin" else 3}>', handle_zoom
 #Depth slider Label
 depth_label = CTkLabel(sidebar, text='Choose tree depth', text_color='black')
 depth_label.pack()
-CTkLabel(sidebar, text='(Choices bigger than default can make the program laggy)', text_color='black', font=('Arial', 9)).pack()
 
 #Slider to choose depth
-depth_slider = CTkSlider(sidebar, from_=20, to=150, orientation='horizontal')
-depth_slider.set(100)
+depth_slider = CTkSlider(sidebar, from_=2, to=12, orientation='horizontal', command=start_tree_generation)
+depth_slider.set(2)
 depth_slider.pack()
 
 #scale Slider Label
@@ -92,8 +86,8 @@ scale_slider_label = CTkLabel(sidebar, text='Choose tree size', text_color='blac
 scale_slider_label.pack()
 
 #Slider to choose scale
-scale_slider = CTkSlider(sidebar, from_=40, to=100, orientation='horizontal')
-scale_slider.set(70)
+scale_slider = CTkSlider(sidebar, from_=40, to=100, orientation='horizontal', command=start_tree_generation)
+scale_slider.set(40)
 scale_slider.pack()
 
 #randomization Slider Label
@@ -101,8 +95,8 @@ randomization_slider_label = CTkLabel(sidebar, text='Randomize Tree', text_color
 randomization_slider_label.pack()
 
 #Slider to choose randomization
-randomization_slider = CTkSlider(sidebar, from_=11, to=100, orientation='horizontal')
-randomization_slider.set(45)
+randomization_slider = CTkSlider(sidebar, from_=11, to=100, orientation='horizontal', command=start_tree_generation)
+randomization_slider.set(11)
 randomization_slider.pack()
 
 #Seasons Label
