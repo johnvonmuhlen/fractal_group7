@@ -4,7 +4,7 @@ import platform
 
 #our files
 from generate_tree import generate_tree
-from util import handle_zoom, handle_zoom_buttons, randomize_settings, reset_to_default
+from util import *
 from static import starting_tree_values, seasons
 
 # startup tkinter canvas
@@ -13,22 +13,23 @@ canvas = Canvas(root, width=800, height=600)
 canvas.pack(fill=BOTH, expand=True, side='right')
 root.title("Group 7 Tree Fractal")
 
-switch_var = StringVar(value="on")
+symmmetric_mode_switch = StringVar(value="off")
+wind_mode_switch = StringVar(value="off")
 
 #sidebar
 sidebar = Frame(root, width=200, bg='white', height=500, relief='sunken', borderwidth=4)
 sidebar.pack(expand=True, fill='both', side='left', anchor='nw')
 
 #function that triggers when user moves sliders
-def start_tree_generation(event=None):
+def start_tree_generation(current_slider, event=None):
     #clear the canvas
     canvas.delete(ALL)
     
-    #get the value of the switch
-    symmetric_mode = switch_var.get()
+    #get the value of switches
+    symmetric_mode = symmmetric_mode_switch.get()
     
     #call main function here
-    generate_tree(canvas, starting_tree_values['x1'], starting_tree_values['y1'], starting_tree_values['angle'], starting_tree_values['length'], root, {'scale':scale_slider.get(), 'randomization':randomization_slider.get(),'season':selected_season.get(), 'depth': round(depth_slider.get() / 10)}, symmetric_mode)
+    generate_tree(canvas, starting_tree_values['x1'], starting_tree_values['y1'], starting_tree_values['angle'], starting_tree_values['length'], root, {'scale':scale_slider.get(), 'randomization': randomization_slider.get(),'season':selected_season.get(), 'depth': round(depth_slider.get() / 10)}, symmetric_mode)
 
 #intro label
 intro_label = CTkLabel(sidebar, text='Welcome!', text_color='black', font=('Arial', 13))
@@ -64,22 +65,23 @@ randomization_slider_label.pack()
 
 #Slider to choose randomization
 randomization_slider = CTkSlider(sidebar, from_=11, to=100, orientation='horizontal', command=start_tree_generation)
-randomization_slider.set(45)
+randomization_slider.set(20)
 randomization_slider.pack()
+
 
 #Seasons Label
 seasons_label = CTkLabel(sidebar, text='Select Season', text_color='black')
 seasons_label.pack()
 
 #make the default selected season None
-selected_season = StringVar(value='None')
+selected_season = StringVar()
 
 #array to store radiobuttons so we then we can access them to perform methods on them
 radio_buttons = []
 
 #loop that creates all radio buttons
 for i in range(len(seasons)):
-    radio = CTkRadioButton(sidebar, text=seasons[i], value=seasons[i], variable=selected_season, text_color='black')
+    radio = CTkRadioButton(sidebar, text=seasons[i], value=seasons[i], variable=selected_season, text_color='black', command=lambda:change_color(canvas, selected_season.get()))
     radio.pack(pady=5)
     radio_buttons.append(radio)
 
@@ -92,8 +94,8 @@ reset_to_default_button = CTkButton(sidebar, text='Reset Tree To Default', comma
 reset_to_default_button.pack()
 
 #swicth to turn on symmetric mode
-switch = CTkSwitch(sidebar, text="Turn On Symetric Mode", variable=switch_var, onvalue="on", offvalue="off", text_color='black')
-switch.pack(pady=10)
+symmetric_switch = CTkSwitch(sidebar, text="Storm Mode", variable=symmmetric_mode_switch, onvalue="on", offvalue="off", text_color='black')
+symmetric_switch.pack(pady=10)
 
 #label for zooming in buttons
 zoom_buttons_label = CTkLabel(sidebar, text="Zoom In/Out", text_color='black')
