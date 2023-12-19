@@ -70,3 +70,16 @@ def reset_to_default(depth_slider, scale_slider, randomization_slider, start_tre
     handle_sliders(randomization_slider, 45, start_tree_generation)
     radio_buttons[4].select()
     
+    
+# Function to change the color of the canvas
+def change_color(canvas, season):
+    if season == 'Summer':
+        canvas.configure(bg='yellow')
+    elif season =='Autumn':
+        canvas.configure(bg= "orange")
+    elif season == "Winter":
+        canvas.configure(bg= "white")
+    elif season == "Spring":
+        canvas.configure(bg= "red")
+    elif season =="None":
+        canvas.configure(bg= "gray")
