@@ -2,21 +2,11 @@ import random
 import math
 from tkinter import *
 
-def generate_tree(canvas, x1, y1, angle, length, button, root, user_selections, width=7):
+def generate_tree(canvas, x1, y1, angle, length, root, user_selections, symmetric_mode, width=7):
     #base case
     if user_selections['depth'] == 0:
-        button.configure(text="Clear Tree", state='normal')
         return
     
-    #user can clear the tree after its done generating
-    if button.cget("text") == 'Clear Tree':
-         canvas.delete('all')
-         button.configure(text="Start Generating New Tree", state='normal')
-         return
-    
-    #disable button while tree is generating
-    button.configure(text="Generating Tree...", state='disabled')
-
     #math to draw tree
     x2 = x1 + length * math.cos(math.radians(angle)) * (user_selections['scale'] * 0.01)
     y2 = y1 + length * math.sin(math.radians(angle)) * (user_selections['scale'] * 0.01)
@@ -36,5 +26,5 @@ def generate_tree(canvas, x1, y1, angle, length, button, root, user_selections, 
     }
     
     #one branch for left and one for right
-    canvas.after(300, generate_tree, canvas, x2, y2, angle - random.uniform(10, user_selections['randomization']), length * (user_selections['scale'] * 0.01), button, root, new_user_selections, new_width)
-    canvas.after(300, generate_tree, canvas, x2, y2, angle + random.uniform(10, user_selections['randomization']), length * (user_selections['scale'] * 0.01), button, root, new_user_selections, new_width)
+    generate_tree(canvas, x2, y2, (angle - random.uniform(10, user_selections['randomization']) if symmetric_mode == 'off' else angle - user_selections['randomization']), length * (user_selections['scale'] * 0.01), root, new_user_selections, symmetric_mode, new_width)
+    generate_tree(canvas, x2, y2, (angle + random.uniform(10, user_selections['randomization']) if symmetric_mode == 'off' else angle + user_selections['randomization']), length * (user_selections['scale'] * 0.01), root, new_user_selections, symmetric_mode, new_width)
