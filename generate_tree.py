@@ -5,6 +5,9 @@ from tkinter import *
 def generate_tree(canvas, x1, y1, angle, length, root, user_selections, symmetric_mode, width=7):
     #base case
     if user_selections['depth'] == 0:
+        # Draw leaves at the end of branches
+        leaf_size = 3  # Define the size of the leaf
+        canvas.create_oval(x1 - leaf_size, y1 - leaf_size, x1 + leaf_size, y1 + leaf_size, fill='green')
         return
     
     #math to draw tree
@@ -13,7 +16,7 @@ def generate_tree(canvas, x1, y1, angle, length, root, user_selections, symmetri
     
     #draws each line
     canvas.create_line(x1, y1, x2, y2, width=width, smooth=True)
-    
+
     #make the branches progressively shorter
     new_width = width * 0.8
     

@@ -17,7 +17,7 @@ root.title("Group 7 Tree Fractal")
 switch_var = StringVar(value="on")
 
 #sidebar
-sidebar = Frame(root, width=200, bg='white', height=500, relief='sunken', borderwidth=4)
+sidebar = Frame(root, width=200, bg='grey', height=500, relief='sunken', borderwidth=4)
 sidebar.pack(expand=True, fill='both', side='left', anchor='nw')
 
 #function that triggers when user moves sliders
