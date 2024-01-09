@@ -84,7 +84,7 @@ radio_buttons = []
 
 #loop that creates all radio buttons
 for i in range(len(seasons)):
-    radio = CTkRadioButton(sidebar, text=seasons[i], value=seasons[i], variable=selected_season, text_color='black', command=lambda:change_color(canvas, selected_season.get()))
+    radio = CTkRadioButton(sidebar, text=seasons[i], value=seasons[i], variable=selected_season, text_color='black', command=lambda:handle_season_change(canvas, selected_season.get(), start_tree_generation))
     radio.pack(pady=5)
     radio_buttons.append(radio)
 
