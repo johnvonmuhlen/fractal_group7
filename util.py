@@ -75,13 +75,21 @@ def reset_to_default(depth_slider, scale_slider, randomization_slider, start_tre
     
 # Function to change the color of the canvas
 def change_color(canvas, season):
+    leaves_color = ''
     if season == 'Summer':
         canvas.configure(bg='yellow')
+        leaves_color = 'green'
     elif season =='Autumn':
         canvas.configure(bg= "#eec170")
+        leaves_color = '#892D11'
     elif season == "Winter":
         canvas.configure(bg= "lightblue")
+        leaves_color = 'white'
     elif season == "Spring":
         canvas.configure(bg= "red")
+        leaves_color = '#be2596'
     elif season =="None":
         canvas.configure(bg= "white")
+        
+    return leaves_color
+    
