@@ -1,22 +1,11 @@
 import random
 import math
 from tkinter import *
+from util import *
 
 def generate_tree(canvas, x1, y1, angle, length, root, user_selections, symmetric_mode, width=7):
     
-    #set color of leaves
-    leaves_color = ''
-    
-    if user_selections['season'] == 'Autumn':
-        leaves_color = '#892D11'
-    elif user_selections['season'] == 'Summer':
-        leaves_color = 'green'
-    elif user_selections['season'] == 'Spring':
-        leaves_color = '#be2596'
-    elif user_selections['season'] == 'Winter':
-        leaves_color = 'white'
-    elif user_selections['season'] == 'None':
-        leaves_color  = ''
+    leaves_color = change_color(canvas, user_selections['season'])
     
     #base case
     if user_selections['depth'] == 0:
