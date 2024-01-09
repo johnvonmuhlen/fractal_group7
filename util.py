@@ -71,7 +71,11 @@ def reset_to_default(depth_slider, scale_slider, randomization_slider, start_tre
     handle_sliders(scale_slider, 70, start_tree_generation)
     handle_sliders(randomization_slider, 45, start_tree_generation)
     radio_buttons[4].select()
-    
+
+
+def handle_season_change(canvas, season, start_tree_generation):
+    change_color(canvas, season)
+    start_tree_generation()
     
 # Function to change the color of the canvas
 def change_color(canvas, season):
