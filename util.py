@@ -1,4 +1,5 @@
 import random
+from tkinter import *
 
 #function to reset sliders to adjust recursively
 def handle_sliders(slider, target_value, generate_tree, step=1, delay=25):
@@ -77,10 +78,10 @@ def change_color(canvas, season):
     if season == 'Summer':
         canvas.configure(bg='yellow')
     elif season =='Autumn':
-        canvas.configure(bg= "orange")
+        canvas.configure(bg= "#eec170")
     elif season == "Winter":
-        canvas.configure(bg= "white")
+        canvas.configure(bg= "lightblue")
     elif season == "Spring":
         canvas.configure(bg= "red")
     elif season =="None":
-        canvas.configure(bg= "gray")
+        canvas.configure(bg= "white")
