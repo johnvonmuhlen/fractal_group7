@@ -1,6 +1,7 @@
 from tkinter import *
 from customtkinter import *
 import platform
+from tktooltip import ToolTip
 
 #our files
 from generate_tree import generate_tree
@@ -21,7 +22,7 @@ sidebar = Frame(root, width=200, bg='white', height=500, relief='sunken', border
 sidebar.pack(expand=True, fill='both', side='left', anchor='nw')
 
 #function that triggers when user moves sliders
-def start_tree_generation(current_slider, event=None):
+def start_tree_generation(event=None):
     #clear the canvas
     canvas.delete(ALL)
     
@@ -49,6 +50,7 @@ depth_label.pack()
 depth_slider = CTkSlider(sidebar, from_=20, to=120, orientation='horizontal', command=start_tree_generation)
 depth_slider.set(80)
 depth_slider.pack()
+ToolTip(depth_slider, msg="the depth of the tree will change")
 
 #scale Slider Label
 scale_slider_label = CTkLabel(sidebar, text='Choose tree size', text_color='black')
@@ -58,6 +60,7 @@ scale_slider_label.pack()
 scale_slider = CTkSlider(sidebar, from_=40, to=100, orientation='horizontal', command=start_tree_generation)
 scale_slider.set(70)
 scale_slider.pack()
+ToolTip(scale_slider, msg="You can change the size of the tree by this slider")
 
 #randomization Slider Label
 randomization_slider_label = CTkLabel(sidebar, text='Randomize Tree', text_color='black')
@@ -67,7 +70,7 @@ randomization_slider_label.pack()
 randomization_slider = CTkSlider(sidebar, from_=11, to=100, orientation='horizontal', command=start_tree_generation)
 randomization_slider.set(20)
 randomization_slider.pack()
-
+ToolTip(randomization_slider, msg="the randomization of the tree")
 
 #Seasons Label
 seasons_label = CTkLabel(sidebar, text='Select Season', text_color='black')
@@ -87,14 +90,16 @@ for i in range(len(seasons)):
 
 #Create Random Tree Button
 randomize_settings_button = CTkButton(sidebar, text="Randomize Settings", command=lambda:randomize_settings(depth_slider, scale_slider, randomization_slider, start_tree_generation, radio_buttons))
-randomize_settings_button.pack(pady=10)  
+randomize_settings_button.pack(pady=10)
+ToolTip(randomize_settings_button, msg="Click to randomize the sittings") 
 
 #reset everyhting to default button
 reset_to_default_button = CTkButton(sidebar, text='Reset Tree To Default', command=lambda:reset_to_default(depth_slider, scale_slider, randomization_slider, start_tree_generation, radio_buttons))
 reset_to_default_button.pack()
+ToolTip(reset_to_default_button, msg="Click to reset to default settings")
 
 #swicth to turn on symmetric mode
-symmetric_switch = CTkSwitch(sidebar, text="Storm Mode", variable=symmmetric_mode_switch, onvalue="on", offvalue="off", text_color='black')
+symmetric_switch = CTkSwitch(sidebar, text="Symmetric Mode", variable=symmmetric_mode_switch, onvalue="on", offvalue="off", text_color='black')
 symmetric_switch.pack(pady=10)
 
 #label for zooming in buttons
