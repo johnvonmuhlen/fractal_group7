@@ -55,7 +55,8 @@ def handle_zoom_buttons(value, segmented_button, canvas, ALL):
         handle_zoom(ZoomEvent(3), canvas, ALL)
     #reset buttons so it can be clicked multiple times
     segmented_button.set(None)
-    
+
+#TODO: merge these 2 functions into one
 #function to randomize sliders
 def randomize_settings(depth_slider, scale_slider, randomization_slider, start_tree_generation, radio_buttons):
     handle_sliders(depth_slider, random.randint(20, 120), start_tree_generation)
