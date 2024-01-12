@@ -60,17 +60,17 @@ def handle_zoom_buttons(value, segmented_button, canvas, ALL):
 #TODO: merge these 2 functions into one
 #function to randomize sliders
 def randomize_settings(depth_slider, scale_slider, randomization_slider, start_tree_generation, radio_buttons):
-    handle_sliders(depth_slider, random.randint(20, 120), start_tree_generation)
-    handle_sliders(scale_slider, random.randint(40, 100), start_tree_generation)
-    handle_sliders(randomization_slider, random.randint(11, 100), start_tree_generation)
+    handle_sliders(depth_slider, random.randint(20, 100), start_tree_generation)
+    handle_sliders(scale_slider, random.randint(45, 70), start_tree_generation)
+    handle_sliders(randomization_slider, random.randint(10, 110), start_tree_generation)
     radio_buttons[random.randint(0, 4)].select()
         
 #reset sliders to default
 def reset_to_default(depth_slider, scale_slider, randomization_slider, start_tree_generation, radio_buttons):
-    handle_sliders(depth_slider, 80, start_tree_generation)
-    handle_sliders(scale_slider, 70, start_tree_generation)
-    handle_sliders(randomization_slider, 45, start_tree_generation)
-    radio_buttons[4].select()
+    handle_sliders(depth_slider, 85, start_tree_generation)
+    handle_sliders(scale_slider, 78, start_tree_generation)
+    handle_sliders(randomization_slider, 35, start_tree_generation)
+    radio_buttons[0].select()
 
 
 def handle_season_change(canvas, season, start_tree_generation):

@@ -2,7 +2,7 @@ import random
 
 #default tree values passed to generate tree
 starting_tree_values = {'x1': 400,
-                        'y1': 570,
+                        'y1': 650,
                         'angle': -90,
                         'length':200,
                         }
